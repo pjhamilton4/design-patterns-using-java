@@ -1,6 +1,6 @@
 package com.philipjhamilton;
 
-import com.philipjhamilton.patterns.creational.singleton.Singleton;
+import com.philipjhamilton.patterns.creational.singleton.SingletonLazyInit;
 
 /**
  * Hello world!
@@ -10,7 +10,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        Singleton test = Singleton.getInstance();
+        SingletonLazyInit test = SingletonLazyInit.getInstance();
 
     }
 }
