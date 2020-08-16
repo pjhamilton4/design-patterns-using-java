@@ -39,6 +39,12 @@ Design patters that provide object creational mechanisms, which allow for flexib
 
     #### Examples in the JDK
     1. Java.lang.Object#clone() - Need to implement Cloneable
+    
+    #### Misc
+    1. Use external libraries when possible
+        1. BeanUtils.cloneBean(obj)
+        2. SerializationUtils.clone(obj)
+        3. Java Deep Cloning Library
 
 - ### Singleton
     #### Intent
