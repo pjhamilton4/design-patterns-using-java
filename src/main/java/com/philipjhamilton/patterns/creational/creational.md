@@ -43,10 +43,17 @@ Design patters that provide object creational mechanisms, which allow for flexib
 - ### Singleton
     #### Intent
     1. Returns the same instance (usually itself) every time. Ensure a class only ha sone instance and provide a global point of access to it.
+    
+    #### Use when
+    1. There must only be exactly one instance of a class, acceessible to clients from a well-known point.
+    2. Sole instance should be extensible by suclassing. 
 
     #### Examples in the JDK
     1. java.lang.Runtime#getRuntime()
     2. java.lang.System#getSecurityManager()
+    
+    #### Misc
+    1. Could use Enum in java
 
 
 ## Rules of thumb
