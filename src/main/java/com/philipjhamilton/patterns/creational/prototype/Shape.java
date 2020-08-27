@@ -18,6 +18,14 @@ public abstract class Shape implements Cloneable{
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Shape{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
+
     public Object clone(){
         Object clone = null;
 
