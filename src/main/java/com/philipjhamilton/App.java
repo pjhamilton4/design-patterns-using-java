@@ -1,6 +1,11 @@
 package com.philipjhamilton;
 
 import com.philipjhamilton.patterns.behavioral.chainofresponsibility.ATMDispenseChain;
+import com.philipjhamilton.patterns.creational.builder.Director;
+import com.philipjhamilton.patterns.creational.builder.builders.CarBuilder;
+import com.philipjhamilton.patterns.creational.builder.builders.CarManualBuilder;
+import com.philipjhamilton.patterns.creational.builder.cars.Car;
+import com.philipjhamilton.patterns.creational.builder.cars.Manual;
 import com.philipjhamilton.patterns.creational.factory.API;
 import com.philipjhamilton.patterns.creational.factory.APIFactory;
 import com.philipjhamilton.patterns.creational.prototype.Shape;
@@ -76,5 +81,21 @@ public class App
         if (!hole.fits(largeSqPegAdapter)) {
             System.out.println("Square peg w20 does not fit into round hole r5.");
         }
+
+        //Builder patterns
+        Director director = new Director();
+        CarBuilder builder = new CarBuilder();
+
+        director.constructSportsCar(builder);
+
+        Car car = builder.getResult();
+        System.out.println("Car built: " + car.getType());
+
+        CarManualBuilder manualBuilder = new CarManualBuilder();
+
+        // Director may know several building recipes.
+        director.constructSportsCar(manualBuilder);
+        Manual carManual = manualBuilder.getResult();
+        System.out.println("\nCar manual built:\n" + carManual.print());
     }
 }
