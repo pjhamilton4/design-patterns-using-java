@@ -15,6 +15,10 @@ import com.philipjhamilton.patterns.structural.adapter.RoundHole;
 import com.philipjhamilton.patterns.structural.adapter.RoundPeg;
 import com.philipjhamilton.patterns.structural.adapter.SquarePeg;
 import com.philipjhamilton.patterns.structural.adapter.SquarePegAdapter;
+import com.philipjhamilton.patterns.structural.bridge.devices.Radio;
+import com.philipjhamilton.patterns.structural.bridge.devices.Tv;
+import com.philipjhamilton.patterns.structural.bridge.remotes.AdvancedRemote;
+import com.philipjhamilton.patterns.structural.bridge.remotes.BasicRemote;
 
 /**
  * Hello world!
@@ -97,5 +101,20 @@ public class App
         director.constructSportsCar(manualBuilder);
         Manual carManual = manualBuilder.getResult();
         System.out.println("\nCar manual built:\n" + carManual.print());
+
+        //Bridge Patter
+        Tv tv = new Tv();
+        Radio radio = new Radio();
+
+        System.out.println("Tests with basic remote.");
+        BasicRemote basicRemote = new BasicRemote(tv);
+        basicRemote.power();
+        tv.printStatus();
+
+        System.out.println("Tests with advanced remote.");
+        AdvancedRemote advancedRemote = new AdvancedRemote(radio);
+        advancedRemote.power();
+        advancedRemote.mute();
+        radio.printStatus();
     }
 }
