@@ -1,11 +1,8 @@
 package com.philipjhamilton;
 
 import com.philipjhamilton.patterns.behavioral.chainofresponsibility.ATMDispenseChain;
-import com.philipjhamilton.patterns.behavioral.chainofresponsibility.Currency;
 import com.philipjhamilton.patterns.creational.factory.API;
 import com.philipjhamilton.patterns.creational.factory.APIFactory;
-import com.philipjhamilton.patterns.creational.objectpool.UserTemp;
-import com.philipjhamilton.patterns.creational.objectpool.UserTempOjbectPool;
 import com.philipjhamilton.patterns.creational.prototype.Shape;
 import com.philipjhamilton.patterns.creational.prototype.ShapeCache;
 import com.philipjhamilton.patterns.creational.singleton.SingletonLazyInit;
@@ -43,7 +40,7 @@ public class App
 
         System.out.println(s3);
 
-        //Factory pattern
+        //Factory patterns
         API api = APIFactory.getApiInstance("v1");
 
         api.doOneMoreThing();
