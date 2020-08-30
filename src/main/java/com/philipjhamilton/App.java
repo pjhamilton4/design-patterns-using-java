@@ -1,6 +1,7 @@
 package com.philipjhamilton;
 
 import com.philipjhamilton.patterns.behavioral.chainofresponsibility.ATMDispenseChain;
+import com.philipjhamilton.patterns.behavioral.command.editor.Editor;
 import com.philipjhamilton.patterns.creational.abstractfactory.Application;
 import com.philipjhamilton.patterns.creational.abstractfactory.factories.MacOSFactory;
 import com.philipjhamilton.patterns.creational.abstractfactory.factories.WindowsFactory;
@@ -27,6 +28,7 @@ import com.philipjhamilton.patterns.structural.composite.shapes.CompoundShape;
 import com.philipjhamilton.patterns.structural.composite.shapes.Dot;
 import com.philipjhamilton.patterns.structural.composite.ImageEditor;
 import com.philipjhamilton.patterns.structural.composite.shapes.Rectangle;
+import com.philipjhamilton.patterns.structural.decorator.decorators.*;
 
 import java.awt.*;
 
@@ -139,7 +141,7 @@ public class App
 
         abstractFactory.paint();
 
-        //Composite pattern example (Uncomment because of GUI
+        //Composite pattern example (Uncomment because of GUI)
 //        ImageEditor editor = new ImageEditor();
 //
 //        editor.loadShapes(
@@ -158,5 +160,24 @@ public class App
 //                        new Dot(360, 240, Color.GREEN)
 //                )
 //        );
+
+        //Command Pattern Example (Uncomment because of GUI)
+        //Editor editor = new Editor();
+        //editor.init();
+
+        // DECORATOR PATTERN EXAMPLE
+        String salaryRecords = "Name,Salary\nJohn Smith,100000\nSteven Jobs,912000";
+        DataSourceDecorator encoded = new CompressionDecorator(
+                new EncryptionDecorator(
+                        new FileDataSource("OutputDemo.txt")));
+        encoded.writeData(salaryRecords);
+        DataSource plain = new FileDataSource("OutputDemo.txt");
+
+        System.out.println("- Input ----------------");
+        System.out.println(salaryRecords);
+        System.out.println("- Encoded --------------");
+        System.out.println(plain.readData());
+        System.out.println("- Decoded --------------");
+        System.out.println(encoded.readData());
     }
 }
