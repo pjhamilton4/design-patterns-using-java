@@ -1,6 +1,9 @@
 package com.philipjhamilton;
 
 import com.philipjhamilton.patterns.behavioral.chainofresponsibility.ATMDispenseChain;
+import com.philipjhamilton.patterns.creational.abstractfactory.Application;
+import com.philipjhamilton.patterns.creational.abstractfactory.factories.MacOSFactory;
+import com.philipjhamilton.patterns.creational.abstractfactory.factories.WindowsFactory;
 import com.philipjhamilton.patterns.creational.builder.Director;
 import com.philipjhamilton.patterns.creational.builder.builders.CarBuilder;
 import com.philipjhamilton.patterns.creational.builder.builders.CarManualBuilder;
@@ -116,5 +119,17 @@ public class App
         advancedRemote.power();
         advancedRemote.mute();
         radio.printStatus();
+
+        //Abstract Factory Example
+
+        MacOSFactory macFactory = new MacOSFactory();
+        WindowsFactory winFactory = new WindowsFactory();
+        Application abstractFactory = new Application(macFactory);
+
+        abstractFactory.paint();
+
+        abstractFactory = new Application(winFactory);
+
+        abstractFactory.paint();
     }
 }
