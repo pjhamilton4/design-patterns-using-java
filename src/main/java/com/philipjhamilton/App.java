@@ -2,6 +2,15 @@ package com.philipjhamilton;
 
 import com.philipjhamilton.patterns.behavioral.chainofresponsibility.ATMDispenseChain;
 import com.philipjhamilton.patterns.behavioral.command.editor.Editor;
+import com.philipjhamilton.patterns.behavioral.iterator.Profile;
+import com.philipjhamilton.patterns.behavioral.iterator.social.Facebook;
+import com.philipjhamilton.patterns.behavioral.iterator.social.LinkedIn;
+import com.philipjhamilton.patterns.behavioral.iterator.social.SocialNetwork;
+import com.philipjhamilton.patterns.behavioral.iterator.spammer.SocialSpammer;
+import com.philipjhamilton.patterns.behavioral.strategy.order.Order;
+import com.philipjhamilton.patterns.behavioral.strategy.strategies.PayByCreditCard;
+import com.philipjhamilton.patterns.behavioral.strategy.strategies.PayByPayPal;
+import com.philipjhamilton.patterns.behavioral.strategy.strategies.PayStrategy;
 import com.philipjhamilton.patterns.creational.abstractfactory.Application;
 import com.philipjhamilton.patterns.creational.abstractfactory.factories.MacOSFactory;
 import com.philipjhamilton.patterns.creational.abstractfactory.factories.WindowsFactory;
@@ -31,6 +40,11 @@ import com.philipjhamilton.patterns.structural.composite.shapes.Rectangle;
 import com.philipjhamilton.patterns.structural.decorator.decorators.*;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.List;
 
 /**
  * Hello world!
@@ -38,8 +52,7 @@ import java.awt.*;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws IOException {
         SingletonLazyInit test = SingletonLazyInit.getInstance();
 
         System.out.println("Singleton Lazy Init hashCode: " + test.hashCode());
@@ -179,5 +192,104 @@ public class App
         System.out.println(plain.readData());
         System.out.println("- Decoded --------------");
         System.out.println(encoded.readData());
+
+        // Strategy Example
+        boolean strategyEnabled = false;
+        if (strategyEnabled) {
+            Map<Integer, Integer> priceOnProducts = new HashMap<>();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            Order order = new Order();
+            PayStrategy strategy = null;
+
+            priceOnProducts.put(1, 2200);
+            priceOnProducts.put(2, 1850);
+            priceOnProducts.put(3, 1100);
+            priceOnProducts.put(4, 890);
+
+            while (!order.isClosed()) {
+                int cost;
+
+                String continueChoice;
+                do {
+                    System.out.print("Please, select a product:" + "\n" +
+                            "1 - Mother board" + "\n" +
+                            "2 - CPU" + "\n" +
+                            "3 - HDD" + "\n" +
+                            "4 - Memory" + "\n");
+                    int choice = Integer.parseInt(reader.readLine());
+                    cost = priceOnProducts.get(choice);
+                    System.out.print("Count: ");
+                    int count = Integer.parseInt(reader.readLine());
+                    order.setTotalCost(cost * count);
+                    System.out.print("Do you wish to continue selecting products? Y/N: ");
+                    continueChoice = reader.readLine();
+                } while (continueChoice.equalsIgnoreCase("Y"));
+
+                if (strategy == null) {
+                    System.out.println("Please, select a payment method:" + "\n" +
+                            "1 - PalPay" + "\n" +
+                            "2 - Credit Card");
+                    String paymentMethod = reader.readLine();
+
+                    // Client creates different strategies based on input from
+                    // user, application configuration, etc.
+                    // пользовательских данных, конфигурации и прочих параметров.
+                    if (paymentMethod.equals("1")) {
+                        strategy = new PayByPayPal();
+                    } else {
+                        strategy = new PayByCreditCard();
+                    }
+                }
+
+                order.processOrder(strategy);
+
+                System.out.print("Pay " + order.getTotalCost() + " units or Continue shopping? P/C: ");
+                String proceed = reader.readLine();
+                if (proceed.equalsIgnoreCase("P")) {
+                    // Finally, strategy handles the payment.
+                    if (strategy.pay(order.getTotalCost())) {
+                        System.out.println("Payment has been successful.");
+                    } else {
+                        System.out.println("FAIL! Please, check your data.");
+                    }
+                    order.setClosed(true);
+                }
+            }
+        }
+
+        // ITERATOR PATTERN EXAMPLE
+        boolean enableIterator = false;
+        if (enableIterator) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Please specify social network to target spam tool (default:Facebook):");
+            System.out.println("1. Facebook");
+            System.out.println("2. LinkedIn");
+            String choice = scanner.nextLine();
+
+            SocialNetwork network;
+            if (choice.equals("2")) {
+                network = new LinkedIn(createTestProfiles());
+            } else {
+                network = new Facebook(createTestProfiles());
+            }
+
+            SocialSpammer spammer = new SocialSpammer(network);
+            spammer.sendSpamToFriends("anna.smith@bing.com",
+                    "Hey! This is Anna's friend Josh. Can you do me a favor and like this post [link]?");
+            spammer.sendSpamToCoworkers("anna.smith@bing.com",
+                    "Hey! This is Anna's boss Jason. Anna told me you would be interested in [link].");
+        }
     }
+
+    private static List<Profile> createTestProfiles() {
+        List<Profile> data = new ArrayList<Profile>();
+        data.add(new Profile("anna.smith@bing.com", "Anna Smith", "friends:mad_max@ya.com", "friends:catwoman@yahoo.com", "coworkers:sam@amazon.com"));
+        data.add(new Profile("mad_max@ya.com", "Maximilian", "friends:anna.smith@bing.com", "coworkers:sam@amazon.com"));
+        data.add(new Profile("bill@microsoft.eu", "Billie", "coworkers:avanger@ukr.net"));
+        data.add(new Profile("avanger@ukr.net", "John Day", "coworkers:bill@microsoft.eu"));
+        data.add(new Profile("sam@amazon.com", "Sam Kitting", "coworkers:anna.smith@bing.com", "coworkers:mad_max@ya.com", "friends:catwoman@yahoo.com"));
+        data.add(new Profile("catwoman@yahoo.com", "Liza", "friends:anna.smith@bing.com", "friends:sam@amazon.com"));
+        return data;
+    }
+
 }
