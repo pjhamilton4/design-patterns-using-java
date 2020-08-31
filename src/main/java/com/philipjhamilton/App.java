@@ -1,7 +1,6 @@
 package com.philipjhamilton;
 
 import com.philipjhamilton.patterns.behavioral.chainofresponsibility.ATMDispenseChain;
-import com.philipjhamilton.patterns.behavioral.command.editor.Editor;
 import com.philipjhamilton.patterns.behavioral.iterator.Profile;
 import com.philipjhamilton.patterns.behavioral.iterator.social.Facebook;
 import com.philipjhamilton.patterns.behavioral.iterator.social.LinkedIn;
@@ -32,15 +31,13 @@ import com.philipjhamilton.patterns.structural.bridge.devices.Radio;
 import com.philipjhamilton.patterns.structural.bridge.devices.Tv;
 import com.philipjhamilton.patterns.structural.bridge.remotes.AdvancedRemote;
 import com.philipjhamilton.patterns.structural.bridge.remotes.BasicRemote;
-import com.philipjhamilton.patterns.structural.composite.shapes.Circle;
-import com.philipjhamilton.patterns.structural.composite.shapes.CompoundShape;
-import com.philipjhamilton.patterns.structural.composite.shapes.Dot;
-import com.philipjhamilton.patterns.structural.composite.ImageEditor;
-import com.philipjhamilton.patterns.structural.composite.shapes.Rectangle;
 import com.philipjhamilton.patterns.structural.decorator.decorators.*;
+import com.philipjhamilton.patterns.structural.facade.points.Line;
+import com.philipjhamilton.patterns.structural.facade.points.Point;
+import com.philipjhamilton.patterns.structural.facade.video.VideoConversionFacade;
 
-import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -233,7 +230,6 @@ public class App
 
                     // Client creates different strategies based on input from
                     // user, application configuration, etc.
-                    // пользовательских данных, конфигурации и прочих параметров.
                     if (paymentMethod.equals("1")) {
                         strategy = new PayByPayPal();
                     } else {
@@ -279,6 +275,21 @@ public class App
             spammer.sendSpamToCoworkers("anna.smith@bing.com",
                     "Hey! This is Anna's boss Jason. Anna told me you would be interested in [link].");
         }
+
+        // Facade Pattern
+        Line lineA = new Line(new Point(2, 4), new Point(5, 7));
+        lineA.move(-2, -4);
+        System.out.println( "after move:  " + lineA );
+        lineA.rotate(45);
+        System.out.println( "after rotate: " + lineA );
+        Line lineB = new Line( new Point(2, 1), new Point(2.866, 1.5));
+        lineB.rotate(30);
+        System.out.println("30 degrees to 60 degrees: " + lineB);
+
+        // Facade Pattern example II
+        VideoConversionFacade converter = new VideoConversionFacade();
+        File mp4Video = converter.convertVideo("youtubevideo.ogg", "mp4");
+
     }
 
     private static List<Profile> createTestProfiles() {
