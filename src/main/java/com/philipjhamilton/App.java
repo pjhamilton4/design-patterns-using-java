@@ -1,11 +1,14 @@
 package com.philipjhamilton;
 
 import com.philipjhamilton.patterns.behavioral.chainofresponsibility.ATMDispenseChain;
+import com.philipjhamilton.patterns.behavioral.command.editor.Editor;
 import com.philipjhamilton.patterns.behavioral.iterator.Profile;
 import com.philipjhamilton.patterns.behavioral.iterator.social.Facebook;
 import com.philipjhamilton.patterns.behavioral.iterator.social.LinkedIn;
 import com.philipjhamilton.patterns.behavioral.iterator.social.SocialNetwork;
 import com.philipjhamilton.patterns.behavioral.iterator.spammer.SocialSpammer;
+import com.philipjhamilton.patterns.behavioral.observer.listeners.EmailNotificationListener;
+import com.philipjhamilton.patterns.behavioral.observer.listeners.LogOpenListener;
 import com.philipjhamilton.patterns.behavioral.strategy.order.Order;
 import com.philipjhamilton.patterns.behavioral.strategy.strategies.PayByCreditCard;
 import com.philipjhamilton.patterns.behavioral.strategy.strategies.PayByPayPal;
@@ -317,6 +320,18 @@ public class App
             System.out.println("---------------------");
             System.out.println("Total: " + ((TREES_TO_DRAW * 8 + TREE_TYPES * 30) / 1024 / 1024) +
                     "MB (instead of " + ((TREES_TO_DRAW * 38) / 1024 / 1024) + "MB)");
+        }
+
+        // Observer pattern
+        com.philipjhamilton.patterns.behavioral.observer.editor.Editor editor = new com.philipjhamilton.patterns.behavioral.observer.editor.Editor();
+        editor.events.subscribe("open", new LogOpenListener("/path/to/log/file.txt"));
+        editor.events.subscribe("save", new EmailNotificationListener("admin@example.com"));
+
+        try {
+            editor.openFile("test.txt");
+            editor.saveFile();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
