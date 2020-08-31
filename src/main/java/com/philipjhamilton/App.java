@@ -35,7 +35,9 @@ import com.philipjhamilton.patterns.structural.decorator.decorators.*;
 import com.philipjhamilton.patterns.structural.facade.points.Line;
 import com.philipjhamilton.patterns.structural.facade.points.Point;
 import com.philipjhamilton.patterns.structural.facade.video.VideoConversionFacade;
+import com.philipjhamilton.patterns.structural.flyweight.forest.Forest;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -290,7 +292,38 @@ public class App
         VideoConversionFacade converter = new VideoConversionFacade();
         File mp4Video = converter.convertVideo("youtubevideo.ogg", "mp4");
 
+        // Flyweight pattern examples
+        boolean showFlyweightExample = false;
+        if(showFlyweightExample) {
+            int CANVAS_SIZE = 500;
+            int TREES_TO_DRAW = 1000000;
+            int TREE_TYPES = 2;
+
+            Forest forest = new Forest();
+            for (int i = 0; i < Math.floor(TREES_TO_DRAW / TREE_TYPES); i++) {
+                forest.plantTree(random(0, CANVAS_SIZE), random(0, CANVAS_SIZE),
+                        "Summer Oak", Color.GREEN, "Oak texture stub");
+                forest.plantTree(random(0, CANVAS_SIZE), random(0, CANVAS_SIZE),
+                        "Autumn Oak", Color.ORANGE, "Autumn Oak texture stub");
+            }
+            forest.setSize(CANVAS_SIZE, CANVAS_SIZE);
+            forest.setVisible(true);
+
+            System.out.println(TREES_TO_DRAW + " trees drawn");
+            System.out.println("---------------------");
+            System.out.println("Memory usage:");
+            System.out.println("Tree size (8 bytes) * " + TREES_TO_DRAW);
+            System.out.println("+ TreeTypes size (~30 bytes) * " + TREE_TYPES + "");
+            System.out.println("---------------------");
+            System.out.println("Total: " + ((TREES_TO_DRAW * 8 + TREE_TYPES * 30) / 1024 / 1024) +
+                    "MB (instead of " + ((TREES_TO_DRAW * 38) / 1024 / 1024) + "MB)");
+        }
     }
+
+    private static int random(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
 
     private static List<Profile> createTestProfiles() {
         List<Profile> data = new ArrayList<Profile>();
