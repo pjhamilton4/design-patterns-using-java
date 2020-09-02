@@ -44,6 +44,9 @@ import com.philipjhamilton.patterns.structural.facade.points.Line;
 import com.philipjhamilton.patterns.structural.facade.points.Point;
 import com.philipjhamilton.patterns.structural.facade.video.VideoConversionFacade;
 import com.philipjhamilton.patterns.structural.flyweight.forest.Forest;
+import com.philipjhamilton.patterns.structural.proxy.downloader.YouTubeDownloader;
+import com.philipjhamilton.patterns.structural.proxy.exparty.ThirdPartyYouTubeClass;
+import com.philipjhamilton.patterns.structural.proxy.exparty.YouTubeCacheProxy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -376,10 +379,36 @@ public class App
                     )
             );
         }
+
+        // Proxy example
+        YouTubeDownloader naiveDownloader = new YouTubeDownloader(new ThirdPartyYouTubeClass());
+        YouTubeDownloader smartDownloader = new YouTubeDownloader(new YouTubeCacheProxy());
+
+        long naive = test(naiveDownloader);
+        long smart = test(smartDownloader);
+        System.out.print("Time saved by caching proxy: " + (naive - smart) + "ms");
+
     }
 
     private static int random(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
+    private static long test(YouTubeDownloader downloader) {
+        long startTime = System.currentTimeMillis();
+
+        // User behavior in our app:
+        downloader.renderPopularVideos();
+        downloader.renderVideoPage("catzzzzzzzzz");
+        downloader.renderPopularVideos();
+        downloader.renderVideoPage("dancesvideoo");
+        // Users might visit the same page quite often.
+        downloader.renderVideoPage("catzzzzzzzzz");
+        downloader.renderVideoPage("someothervid");
+
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.print("Time elapsed: " + estimatedTime + "ms\n");
+        return estimatedTime;
     }
 
 
