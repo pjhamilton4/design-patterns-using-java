@@ -7,6 +7,8 @@ import com.philipjhamilton.patterns.behavioral.iterator.social.Facebook;
 import com.philipjhamilton.patterns.behavioral.iterator.social.LinkedIn;
 import com.philipjhamilton.patterns.behavioral.iterator.social.SocialNetwork;
 import com.philipjhamilton.patterns.behavioral.iterator.spammer.SocialSpammer;
+import com.philipjhamilton.patterns.behavioral.mediator.Mediator;
+import com.philipjhamilton.patterns.behavioral.mediator.components.*;
 import com.philipjhamilton.patterns.behavioral.observer.listeners.EmailNotificationListener;
 import com.philipjhamilton.patterns.behavioral.observer.listeners.LogOpenListener;
 import com.philipjhamilton.patterns.behavioral.strategy.order.Order;
@@ -40,6 +42,7 @@ import com.philipjhamilton.patterns.structural.facade.points.Point;
 import com.philipjhamilton.patterns.structural.facade.video.VideoConversionFacade;
 import com.philipjhamilton.patterns.structural.flyweight.forest.Forest;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -332,6 +335,22 @@ public class App
             editor.saveFile();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        // Mediator Patter
+        boolean displayMediatorPattern = false;
+        if(displayMediatorPattern){
+            Mediator mediator = new com.philipjhamilton.patterns.behavioral.mediator.Editor();
+
+            mediator.registerComponent(new Title());
+            mediator.registerComponent(new TextBox());
+            mediator.registerComponent(new AddButton());
+            mediator.registerComponent(new DeleteButton());
+            mediator.registerComponent(new SaveButton());
+            mediator.registerComponent(new com.philipjhamilton.patterns.behavioral.mediator.components.List(new DefaultListModel()));
+            mediator.registerComponent(new Filter());
+
+            mediator.createGUI();
         }
     }
 
