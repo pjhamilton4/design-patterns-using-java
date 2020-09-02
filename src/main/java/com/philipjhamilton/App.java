@@ -9,6 +9,9 @@ import com.philipjhamilton.patterns.behavioral.iterator.social.SocialNetwork;
 import com.philipjhamilton.patterns.behavioral.iterator.spammer.SocialSpammer;
 import com.philipjhamilton.patterns.behavioral.mediator.Mediator;
 import com.philipjhamilton.patterns.behavioral.mediator.components.*;
+import com.philipjhamilton.patterns.behavioral.memento.shapes.Circle;
+import com.philipjhamilton.patterns.behavioral.memento.shapes.CompoundShape;
+import com.philipjhamilton.patterns.behavioral.memento.shapes.Dot;
 import com.philipjhamilton.patterns.behavioral.observer.listeners.EmailNotificationListener;
 import com.philipjhamilton.patterns.behavioral.observer.listeners.LogOpenListener;
 import com.philipjhamilton.patterns.behavioral.strategy.order.Order;
@@ -351,6 +354,27 @@ public class App
             mediator.registerComponent(new Filter());
 
             mediator.createGUI();
+        }
+
+        boolean runMementoExample = false;
+        if(runMementoExample){
+            com.philipjhamilton.patterns.behavioral.memento.editor.Editor editorMemento = new com.philipjhamilton.patterns.behavioral.memento.editor.Editor();
+            editorMemento.loadShapes(
+                    new Circle(10, 10, 10, Color.BLUE),
+
+                    new CompoundShape(
+                            new Circle(110, 110, 50, Color.RED),
+                            new Dot(160, 160, Color.RED)
+                    ),
+
+                    new CompoundShape(
+                            new com.philipjhamilton.patterns.behavioral.memento.shapes.Rectangle(250, 250, 100, 100, Color.GREEN),
+                            new Dot(240, 240, Color.GREEN),
+                            new Dot(240, 360, Color.GREEN),
+                            new Dot(360, 360, Color.GREEN),
+                            new Dot(360, 240, Color.GREEN)
+                    )
+            );
         }
     }
 
